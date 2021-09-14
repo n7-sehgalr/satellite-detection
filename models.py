@@ -40,8 +40,6 @@ model = models.resnet50(pretrained=True)
 for param in model.parameters():
     param.requires_grad = False
 
-model.fc = nn.Linear(in_features=2048, out_features=10)
-
 class SatImgNet(nn.Module):
     def __init__(self):
         super(SatImgNet, self).__init__()
