@@ -7,6 +7,8 @@ import torch
 from sklearn.model_selection import train_test_split
 from torchvision import datasets, transforms
 
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 def splitting(path):
     if os.path.exists("data/dataset_splits"):
         return
@@ -35,7 +37,7 @@ def dataset_loader(train_path, val_path, test_path):
 
     train_dataset = datasets.ImageFolder(train_path, transform=train_transform)
     val_dataset = datasets.ImageFolder(val_path, transform=val_transform)
-    test_dataset = datasets.ImageFolder(test_path, transform=val_transform)
+    test_dataset = datasets.ImageFolder(test_path, transform=test_transform)
     print(f"Training data samples:{len(train_dataset)}\nValidation data samples:\
          {len(val_dataset)}\nTesting data samples: {len(test_dataset)}")
 
