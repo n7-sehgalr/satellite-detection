@@ -15,10 +15,13 @@ class SatImgNet(nn.Module):
         x = F.dropout(x)
         x = F.log_softmax(x, dim=1)
 
+        return x
+
 
 model = models.resnet50(pretrained=True)
 
 for param in model.parameters():
     param.requires_grad = False
-    
+
+# Parameters of newly constructed modules have requires_grad=True by default
 model.fc = SatImgNet()
