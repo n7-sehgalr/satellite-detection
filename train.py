@@ -1,13 +1,21 @@
 import numpy as np
-
+import torch 
 from torch import nn
 from torch import optim
 from torch.autograd import Variable
-from data_handler import trainloader
+from data_handler import dataset_loader
 from models import model
+import matplotlib.pyplot as plt
+from tqdm import tqdm
+
+train_path = "data/dataset_splits/train"
+val_path = "data/dataset_splits/val"
+test_path = "data/dataset_splits/test"
+
+train_loader, val_loader, _ = dataset_loader(train_path, val_path, test_path)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.01)
+optimizer = optim.Adam(model.fc.parameters(), lr=0.01)
 
 epochs = 3
 
@@ -15,12 +23,17 @@ epoch_values = []
 loss_values = []
 valid_loss_values = []
 
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+model = model.to(device)
+
 for e in range(epochs):
     print(f"Epoch: {e+1}")
     running_loss = 0.0
     running_valid_loss = 0.0
 
-    for i, (inputs, labels) in enumerate(iter(trainloader)):
+    for i, (inputs, labels) in tqdm(enumerate(iter(train_loader))):
+        inputs, labels = inputs.to(device), labels.to(device)
+        print(inputs[0], labels[0])
         output = model(inputs)
         optimizer.zero_grad()
         loss = criterion(output, labels)
@@ -33,7 +46,7 @@ for e in range(epochs):
 
     model.eval()
     with torch.no_grad():
-        for i, (inputs, labels) in enumerate(iter(validloader)):
+        for i, (inputs, labels) in enumerate(iter(val_loader)):
             output = model(inputs)
             valid_loss = criterion(output, labels)
             running_valid_loss += valid_loss.item()
