@@ -1,0 +1,1 @@
+cannot identify image file <_io.BufferedReader name='data/dataset_splits/train\\AnnualCrop\\AnnualCrop_1792.jpg'>cannot identify image file <_io.BufferedReader name='data/dataset_splits/train\\AnnualCrop\\AnnualCrop_1792.jpg'>cannot identify image file <_io.BufferedReader name='data/dataset_splits/train\\AnnualCrop\\AnnualCrop_1792.jpg'>
