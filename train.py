@@ -67,3 +67,6 @@ for e in tqdm(range(epochs)):
     except Exception as e:
         with open('log.txt', 'a') as file:
             file.write(str(e))
+
+PATH = './SatModel.pth'
+torch.save(model.state_dict(), PATH)
