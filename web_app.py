@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import os
 from io import BytesIO
+from predict import predictor
 
 # Sidebar - The Team
 st.sidebar.title("Sat Team")
@@ -36,12 +37,11 @@ def main():
             st.write("------------")
             st.write("Check you image annotated below...")
             with st.spinner('Wait for it...'):
-                # FUNCTION to run model on the uploaded_file
-                # Returns the image that will be used below
-                st.image(load_image(uploaded_file))
+                img = predictor(uploaded_file)
+                st.image(load_image(img))
             st.success('Done!')
             st.balloons()
-            st.download_button(label="Download Image", data='THE IMAGE RETURNED')
+            st.download_button(label="Download Image", data=img)
             
             
             
