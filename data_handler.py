@@ -47,6 +47,6 @@ def dataset_loader(train_path, val_path, test_path):
 
     print('Data DUELY HANDLED')
 
-    return train_loader, val_loader, test_loader
+    return train_loader, val_loader, test_loader, len(train_dataset), len(val_dataset), len(test_dataset)
 
 splitting("data/2750")
