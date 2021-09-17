@@ -53,7 +53,7 @@ def predictor(image,model):
     # annotate = cv2.rectangle(image,position1,position2,(0,255,0),2)
     # text = cv2.putText(image,f'{rps_class}',position1,cv2.FONT_HERSHEY_SIMPLEX,3,(0,255,0),2)
     # print(rps_class)
-    return rps_class.shape, predicted, ps
+    return rps_class, class_names[int(predicted)], ps
 
 test_image = Image.open('test_images/map2.png')
 rgb = test_image.convert('RGB')
