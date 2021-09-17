@@ -43,10 +43,28 @@ def accuracy_test(testloader):
 
 def predictor(image,model):
 
+    save_path = 'SatModel.pth'
+
+    test_image = Image.open(image_path)
+    original = test_image.convert('RGB')
+    
+    max_x = original.size[0]
+    max_y = original.size[1]
+
+     
+    x1 = np.random.randint(64, high=max_x)
+    x0 = x1 - 64
+    y1 = np.random.randint(64, high=max_y)
+    y0 = y1 - 64
+
+    cropped_image = original[y0:y1, x0:x1]
     test_transform = transforms.Compose([transforms.Resize((224, 224)),
                                     transforms.ToTensor(),
                                     transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                     std=[0.229, 0.224, 0.225])])
+
+    transformed_image = test_transform(cropped_image).unsqueeze(0)
+    print(transformed_image.shape)
 
     
     print(test_transform(image).unsqueeze(0).shape)
@@ -57,16 +75,13 @@ def predictor(image,model):
     model.eval()
 
     # Generate prediction
-    rps_class = model(test_transform(image).unsqueeze(0))
+    rps_class = model(transformed_image)
     _, predicted = torch.max(rps_class.data,1)
     
     softmax = torch.nn.Softmax(dim=1)
     ps = softmax(rps_class)
     class_names = {key:val for key, val in enumerate(os.listdir('data/2750'))}
     print(class_names)
-    # Positions 
-    # position1 = rps_class.values[0]
-    # position2 = rps_class.values[-1]
     
     # Annotate 
     # annotate = cv2.rectangle(image,position1,position2,(0,255,0),2)
@@ -74,7 +89,4 @@ def predictor(image,model):
     # print(rps_class)
     return rps_class, class_names[int(predicted)], ps
 
-test_image = Image.open('test_images/map2.png')
-rgb = test_image.convert('RGB')
-print(rgb.size)
-print(predictor(rgb, model))
+print(predictor("test_images/map2.png", model))
