@@ -82,10 +82,10 @@ train_path = "data/dataset_splits/train"
 val_path = "data/dataset_splits/val"
 test_path = "data/dataset_splits/test"
 
-train_loader, val_loader, _ = dataset_loader(train_path, val_path, test_path)
+train_loader, val_loader, _, train_size, val_size, _ = dataset_loader(train_path, val_path, test_path)
 dataloaders = {'train': train_loader, 'val': val_loader}
 
-dataset_sizes = {x: len(os.listdir(f'data/dataset_splits/{x}')) for x in ['train', 'val']}
+dataset_sizes = {'train': train_size, 'val': val_size}
 
 model = model.to(device)
 print(summary(model, (3, 224, 224)))
