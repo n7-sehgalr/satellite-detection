@@ -37,7 +37,7 @@ def main():
             st.write("------------")
             st.write("Check you image annotated below...")
             with st.spinner('Wait for it...'):
-                img = predictor(uploaded_file)
+                img = predictor(uploaded_file).image1
                 st.image(load_image(img))
             st.success('Done!')
             st.balloons()
